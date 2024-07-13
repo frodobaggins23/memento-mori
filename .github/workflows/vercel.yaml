@@ -1,0 +1,36 @@
+name: Vercel Deployment
+on:
+  workflow_dispatch: 
+    inputs:
+      environment:
+            description: 'Vercel environment'
+            required: true
+            default: 'preview'
+            type: choice
+            options:
+            - development
+            - preview
+            - production
+jobs:
+  Deploy-To-Vercel:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=${{inputs.environment}} --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Move env file
+        run: cp .vercel/.env.${{inputs.environment}}.local .env.local
+      - name: Build Project Artifacts (PRODUCTION)
+        if: ${{contains(inputs.environment, 'production')}}
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Build Project Artifacts (OTHER ENVIRONMENTS)
+        if: ${{!contains(inputs.environment, 'production')}}
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy Project Artifacts to Vercel (PRODUCTION)
+        if: ${{contains(inputs.environment, 'production')}}
+        run: vercel deploy --prod --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy Project Artifacts to Vercel (OTHER ENVIRONMENTS)
+        if: ${{!contains(inputs.environment, 'production')}}
+        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
