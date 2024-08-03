@@ -10,7 +10,8 @@
     "tsc": "npx tsc --project ./tsconfig.app.json",
     "preview": "vite preview",
     "prepare": "husky",
-    "test": "vitest --run"
+    "test": "vitest --run",
+    "gc": "node ./scripts/generate-component.js"
   },
   "dependencies": {
     "react": "^18.3.1",
@@ -34,5 +35,8 @@
     "typescript": "^5.2.2",
     "vite": "^5.3.1",
     "vitest": "^2.0.2"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }
