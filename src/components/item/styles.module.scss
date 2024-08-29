@@ -1,0 +1,25 @@
+.item {
+    overflow: hidden;
+    text-align: center;
+    background-color: rgb(199, 185, 212);
+    border-radius: 0.5rem;
+    color: #000;
+    height: 10px;
+
+    &.active {
+        background-color: blueviolet;
+        color: azure;
+    }
+
+    &.small {
+        height: 10px;
+    }
+
+    &.medium {
+        height: 25px;
+    }
+
+    &.large {
+        height: 50px;
+    }
+}

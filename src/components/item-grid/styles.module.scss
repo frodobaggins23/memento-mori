@@ -1,0 +1,15 @@
+.itemGrid {
+    display: grid;
+    width: 100%;
+    grid-gap: 0.5rem;
+
+    &.small{
+        grid-template-columns: repeat(auto-fill, minmax(10px, 1fr));
+    }
+    &.medium{
+        grid-template-columns: repeat(auto-fill, minmax(25px, 1fr));
+    }
+    &.large{
+        grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+    }
+}
