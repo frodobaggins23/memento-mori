@@ -11,6 +11,7 @@
     "preview": "vite preview",
     "prepare": "husky",
     "test": "vitest --run",
+    "test:watch": "vitest --watch",
     "gc": "node ./scripts/generate-component.js"
   },
   "dependencies": {
