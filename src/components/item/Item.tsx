@@ -1,6 +1,9 @@
-import { FC } from "react"
+import { FC, useContext } from "react"
 import { Scales } from "@/types"
+import { Tooltip } from "../tooltip"
 import styles from "./styles.module.scss"
+import { AppContext } from "@/context/AppContext"
+import { calculateWeekFromCount } from "@/utils/weeksCalculator"
 
 interface Props {
   orderNumber: number
@@ -11,13 +14,12 @@ interface Props {
   scale: Scales
 }
 
-export const Item: FC<Props> = ({ scale = "small", active = false }) => {
+export const Item: FC<Props> = ({ scale = "small", active = false, orderNumber }) => {
+  const { settings } = useContext(AppContext)
+  const targetWeek = calculateWeekFromCount(settings.dob, orderNumber)
   return (
-    <div className={`${styles.item} ${active && styles.active} ${styles[scale]}`}>
-      {/* <div className="item__order-number">{orderNumber}</div> */}
-      {/* <div className="item__start-date">{startDate}</div>
-      <div className="item__end-date">{endDate}</div>
-      <div className="item__note">{note}</div> */}
-    </div>
+    <Tooltip text={targetWeek}>
+      <div className={`${styles.item} ${active && styles.active} ${styles[scale]}`} />
+    </Tooltip>
   )
 }
