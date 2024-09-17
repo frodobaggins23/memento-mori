@@ -1,0 +1,49 @@
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 35%;
+    height: 50%;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 2;
+    padding: 2rem
+}
+
+.modalCloseButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+    border: none;
+}
+
+.modalClose {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    cursor: pointer;
+}
+
+.modalClose::before,
+.modalClose::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 2px;
+    background-color: black;
+}
+
+.modalClose::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.modalClose::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
