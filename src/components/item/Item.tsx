@@ -1,4 +1,4 @@
-import { FC, useContext } from "react"
+import { FC, useContext, memo } from "react"
 import { Scales } from "@/types"
 import { Tooltip } from "../tooltip"
 import styles from "./styles.module.scss"
@@ -14,7 +14,7 @@ interface Props {
   scale: Scales
 }
 
-export const Item: FC<Props> = ({ scale = "small", active = false, orderNumber }) => {
+const ItemComponent: FC<Props> = ({ scale = "small", active = false, orderNumber }) => {
   const { settings } = useContext(AppContext)
   const targetWeek = calculateWeekFromCount(settings.dob, orderNumber)
   return (
@@ -23,3 +23,5 @@ export const Item: FC<Props> = ({ scale = "small", active = false, orderNumber }
     </Tooltip>
   )
 }
+
+export const Item = memo(ItemComponent)
