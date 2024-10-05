@@ -1,8 +1,14 @@
-import { FC } from "react"
+import { FC, useContext } from "react"
 import { z } from "zod"
+import { getDateStringFromDMYstrings, getDMYfromDateString } from "@/utils"
 import { ErrorList } from "../errorList"
 import styles from "./styles.module.scss"
+import { AppContext } from "@/context/AppContext"
 import { useFormValidation } from "@/hooks/useFormValidation"
+
+interface Props {
+  onModalSubmit: () => void
+}
 
 const FORM_FIELDS = {
   name: "name",
@@ -33,16 +39,24 @@ const formSchema = z.object({
   [FORM_FIELDS.gender]: z.string().min(1, "Gender is required"),
 })
 
-export const Settings: FC = () => {
+export const Settings: FC<Props> = ({ onModalSubmit }) => {
   const { errors, validateField, validateForm } = useFormValidation(formSchema)
+  const { setSettings, settings } = useContext(AppContext)
+  const [dob_date, dob_month, dob_year] = getDMYfromDateString(settings.dob)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
-    const data = Object.fromEntries(formData)
+    const data = Object.fromEntries(formData) as Record<string, string>
     try {
       await validateForm(data)
-      console.log("Form validation passed")
+      const dob = getDateStringFromDMYstrings(data[FORM_FIELDS.dob_day], data[FORM_FIELDS.dob_month], data[FORM_FIELDS.dob_year])
+      setSettings({
+        name: data[FORM_FIELDS.name],
+        dob,
+        gender: data[FORM_FIELDS.gender],
+      })
+      onModalSubmit()
     } catch (e) {
       console.log("Form validation failed ...")
     }
@@ -58,6 +72,7 @@ export const Settings: FC = () => {
             name={FORM_FIELDS.name}
             data-error={!!errors[FORM_FIELDS.name]}
             onBlur={(e) => validateField(e.currentTarget.value, FORM_FIELDS.name)}
+            defaultValue={settings.name ?? ""}
           />
         </label>
         <label className={styles.label}>
@@ -68,24 +83,27 @@ export const Settings: FC = () => {
               name={FORM_FIELDS.dob_day}
               data-error={!!errors[FORM_FIELDS.dob_day]}
               onBlur={(e) => validateField(e.currentTarget.value, FORM_FIELDS.dob_day)}
+              defaultValue={dob_date}
             />
             <input
               type="number"
               name={FORM_FIELDS.dob_month}
               data-error={!!errors[FORM_FIELDS.dob_month]}
               onBlur={(e) => validateField(e.currentTarget.value, FORM_FIELDS.dob_month)}
+              defaultValue={dob_month}
             />
             <input
               type="number"
               name={FORM_FIELDS.dob_year}
               data-error={!!errors[FORM_FIELDS.dob_year]}
               onBlur={(e) => validateField(e.currentTarget.value, FORM_FIELDS.dob_year)}
+              defaultValue={dob_year}
             />
           </div>
         </label>
         <label className={styles.label}>
           <span>Gender:</span>
-          <select name={FORM_FIELDS.gender} data-error={!!errors[FORM_FIELDS.gender]}>
+          <select name={FORM_FIELDS.gender} data-error={!!errors[FORM_FIELDS.gender]} defaultValue={settings.gender ?? ""}>
             <option label="male" value="male" />
             <option label="female" value="female" />
           </select>

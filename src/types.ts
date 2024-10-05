@@ -1,14 +1,21 @@
+export type SettingsState = {
+  dob: string | null
+  name: string | null
+  gender: string | null
+}
+
 export type ContextState = {
   settings: {
-    dob: string
-    name: string
-    gender: string
+    dob: string | null
+    name: string | null
+    gender: string | null
   }
   weekCount: {
     current: number
     toGo: number
   }
   changeSetting: (key: string, value: string) => void
+  setSettings: (state: SettingsState) => void
   scale: Scales
   nextScale: () => void
 }

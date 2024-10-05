@@ -1,9 +1,9 @@
 import { createContext, useMemo } from "react"
 import { FC, ReactNode } from "react"
 import { ContextState } from "@/types"
+import { calculateWeeksFromDob, calculateWeeksToGo } from "@/utils"
 import { useScale } from "@/hooks/useScale"
 import { useSettings } from "@/hooks/useSettings"
-import { calculateWeeksFromDob, calculateWeeksToGo } from "@/utils/weeksCalculator"
 
 const defaultState: ContextState = {
   settings: {
@@ -17,6 +17,7 @@ const defaultState: ContextState = {
   },
   scale: "small",
   changeSetting: () => {},
+  setSettings: () => {},
   nextScale: () => {},
 }
 
@@ -28,9 +29,12 @@ interface Props {
 
 export const AppContextProvider: FC<Props> = ({ children }) => {
   const { scale, nextScale } = useScale()
-  const { settings, changeSetting } = useSettings()
+  const { settings, changeSetting, setSettings } = useSettings()
 
   const weekCount = useMemo(() => {
+    if (!settings.dob) {
+      return 0
+    }
     return calculateWeeksFromDob(settings.dob)
   }, [settings.dob])
 
@@ -49,6 +53,7 @@ export const AppContextProvider: FC<Props> = ({ children }) => {
         scale,
         changeSetting,
         nextScale,
+        setSettings,
       }}
     >
       {children}
