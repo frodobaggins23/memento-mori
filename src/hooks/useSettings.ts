@@ -7,6 +7,8 @@ type Action = {
   value: string | SettingsState
 }
 
+const REDUCER_KEY = "settings"
+
 const ACTIONS = {
   CHANGE_SETTING: "CHANGE_SETTING",
   SET_SETTINGS: "SET_SETTINGS",
@@ -35,7 +37,7 @@ const settingsReducer = (state: SettingsState, action: Action) => {
 }
 
 export const useSettings = () => {
-  const [state, dispatch] = usePersistedReducer(settingsReducer, defaultState, "REDUCER")
+  const [state, dispatch] = usePersistedReducer(settingsReducer, defaultState, REDUCER_KEY)
 
   const changeSetting = (key: string, value: string) => {
     dispatch({ type: ACTIONS.CHANGE_SETTING, key, value })
