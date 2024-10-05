@@ -24,3 +24,14 @@ export const calculateWeekFromCount = (dob: string, currentWeekCount: number): s
   const targetWeek = new Date(dobDate.getTime() + currentWeekCount * 7 * DAY_IN_MILLISECONDS)
   return targetWeek.toDateString()
 }
+
+export const getDateStringFromDMYstrings = (day: string, month: string, year: string): string => {
+  const date = new Date(`${year}-${month}-${day}`)
+  return date.toDateString()
+}
+
+export const getDMYfromDateString = (dateString: string | null): string[] => {
+  if (!dateString) return ["", "", ""]
+  const date = new Date(dateString)
+  return [date.getDate().toString(), (date.getMonth() + 1).toString(), date.getFullYear().toString()]
+}

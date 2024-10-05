@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest"
-import { calculateWeeksFromDob } from "../weeksCalculator"
+import { calculateWeeksFromDob } from "../time"
 
 describe("calculateWeeksFromDob", () => {
   beforeEach(() => {

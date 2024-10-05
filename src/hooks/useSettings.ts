@@ -1,29 +1,33 @@
-import { useReducer } from "react"
-
-type State = {
-  dob: string
-  name: string
-  gender: string
-}
+import { SettingsState } from "@/types"
+import { usePersistedReducer } from "./usePersistedReducer"
 
 type Action = {
   type: string
-  key: string
-  value: string
+  key?: string
+  value: string | SettingsState
 }
 
-const MOCK_USER: State = {
-  dob: "1987-01-23",
-  name: "John Doe",
-  gender: "male",
+const ACTIONS = {
+  CHANGE_SETTING: "CHANGE_SETTING",
+  SET_SETTINGS: "SET_SETTINGS",
 }
 
-const settingsReducer = (state: State, action: Action) => {
+const defaultState: SettingsState = {
+  dob: null,
+  name: null,
+  gender: null,
+}
+
+const settingsReducer = (state: SettingsState, action: Action) => {
   switch (action.type) {
-    case "CHANGE_SETTING":
+    case ACTIONS.CHANGE_SETTING:
       return {
         ...state,
-        [action.key]: action.value,
+        [action.key!]: action.value as string,
+      }
+    case ACTIONS.SET_SETTINGS:
+      return {
+        ...(action.value as SettingsState),
       }
     default:
       return state
@@ -31,11 +35,15 @@ const settingsReducer = (state: State, action: Action) => {
 }
 
 export const useSettings = () => {
-  const [state, dispatch] = useReducer(settingsReducer, MOCK_USER)
+  const [state, dispatch] = usePersistedReducer(settingsReducer, defaultState, "REDUCER")
 
   const changeSetting = (key: string, value: string) => {
-    dispatch({ type: "CHANGE_SETTING", key, value })
+    dispatch({ type: ACTIONS.CHANGE_SETTING, key, value })
   }
 
-  return { settings: state, changeSetting }
+  const setSettings = (settings: SettingsState) => {
+    dispatch({ type: ACTIONS.SET_SETTINGS, value: settings })
+  }
+
+  return { settings: state, changeSetting, setSettings }
 }

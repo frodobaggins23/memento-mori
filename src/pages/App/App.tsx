@@ -10,8 +10,9 @@ import { Toolbar } from "@/components/toolbar"
 import { AppContext } from "@/context/AppContext"
 
 export const App = () => {
-  const { scale, nextScale, weekCount } = useContext(AppContext)
+  const { scale, nextScale, weekCount, settings } = useContext(AppContext)
   const [showModal, setShowModal] = useState(false)
+  const forceSettings = !settings.dob
 
   const itemCount = useMemo(() => {
     return weekCount.current + weekCount.toGo
@@ -21,23 +22,15 @@ export const App = () => {
     <Container>
       <ItemGrid scale={scale}>
         {Array.from({ length: itemCount }).map((_, index) => (
-          <Item
-            key={index}
-            orderNumber={index + 1}
-            startDate="2021-01-01"
-            endDate="2021-12-31"
-            note="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-            active={index < weekCount.current}
-            scale={scale}
-          />
+          <Item key={index} orderNumber={index + 1} active={index < weekCount.current} scale={scale} />
         ))}
       </ItemGrid>
       <Toolbar>
         <ScaleButton scale={scale} handleClick={nextScale} />
         <SettingsButton handleClick={() => setShowModal(true)} />
       </Toolbar>
-      <Modal visible={showModal} handleClose={() => setShowModal(false)}>
-        <Settings />
+      <Modal visible={forceSettings || showModal} handleClose={() => setShowModal(false)}>
+        <Settings onModalSubmit={() => setShowModal(false)} />
       </Modal>
     </Container>
   )
