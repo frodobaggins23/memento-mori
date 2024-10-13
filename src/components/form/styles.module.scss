@@ -1,0 +1,17 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    & [data-error="true"] {
+        border: 1px solid $error;
+    }
+}
+
+.label {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    margin-bottom: 1rem;
+    grid-row-gap: 1rem;
+}

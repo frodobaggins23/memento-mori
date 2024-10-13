@@ -1,0 +1,13 @@
+.dob {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: 1fr 1fr 2fr;
+    grid-column-gap: 1rem;
+    align-items: center;
+    margin-bottom: 1rem;
+    max-width: 100%;
+
+    input {
+        width: 100%;
+    }
+}

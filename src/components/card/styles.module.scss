@@ -1,0 +1,60 @@
+.container {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+
+    .headline {
+        background-color: $secondary-light;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #ddd;
+
+        .title {
+            font-weight: bold;
+            font-size: 16px;
+            margin: 0;
+        }
+
+        .closeBtn {
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+            background-color: $primary-light; 
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+
+            &::before, &::after {
+                content: '';
+                position: absolute;
+                width: 2px;
+                height: 12px;
+                background-color: #fff;
+            }
+
+            &::before {
+                transform: rotate(45deg);
+            }
+
+            &::after {
+                transform: rotate(-45deg);
+            }
+
+            &:hover {
+                background-color: $primary-heavy
+            }
+        }
+    }
+
+    .content {
+        padding: 15px;
+    }
+}

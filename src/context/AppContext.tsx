@@ -1,11 +1,11 @@
 import { createContext, useMemo } from "react"
 import { FC, ReactNode } from "react"
-import { ContextState } from "@/types"
+import { AppContextState } from "@/types"
 import { calculateWeeksFromDob, calculateWeeksToGo } from "@/utils"
 import { useScale } from "@/hooks/useScale"
 import { useSettings } from "@/hooks/useSettings"
 
-const defaultState: ContextState = {
+const defaultState: AppContextState = {
   settings: {
     dob: "",
     name: "",

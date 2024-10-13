@@ -19,10 +19,11 @@ export const calculateWeeksToGo = (currentWeekCount: number): number => {
   return WEEKS_IN_LIFE - currentWeekCount
 }
 
-export const calculateWeekFromCount = (dob: string, currentWeekCount: number): string => {
+export const calculateDatesFromWeekCount = (dob: string, currentWeekCount: number): { startDate: string; endDate: string } => {
   const dobDate = new Date(dob)
-  const targetWeek = new Date(dobDate.getTime() + currentWeekCount * 7 * DAY_IN_MILLISECONDS)
-  return targetWeek.toDateString()
+  const startDate = new Date(dobDate.getTime() + currentWeekCount * 7 * DAY_IN_MILLISECONDS)
+  const endDate = new Date(startDate.getTime() + 6 * DAY_IN_MILLISECONDS)
+  return { startDate: startDate.toDateString(), endDate: endDate.toDateString() }
 }
 
 export const getDateStringFromDMYstrings = (day: string, month: string, year: string): string => {
@@ -34,4 +35,18 @@ export const getDMYfromDateString = (dateString: string | null): string[] => {
   if (!dateString) return ["", "", ""]
   const date = new Date(dateString)
   return [date.getDate().toString(), (date.getMonth() + 1).toString(), date.getFullYear().toString()]
+}
+
+export const getFormattedDate = (dateValue: string | Date): string => {
+  let date
+  if (typeof dateValue === "string") {
+    date = new Date(dateValue)
+  } else {
+    date = dateValue
+  }
+  return date.toLocaleDateString("cs-CZ")
+}
+
+export const sortDateStrings = (a: string, b: string) => {
+  return new Date(a).getTime() - new Date(b).getTime()
 }
