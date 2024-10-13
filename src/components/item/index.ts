@@ -1,1 +1,1 @@
-export { Item } from "./Item"
+export { ItemWrapper as Item } from "./ItemWrapper"

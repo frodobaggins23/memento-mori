@@ -1,14 +1,20 @@
 .item {
     overflow: hidden;
     text-align: center;
-    background-color: rgb(199, 185, 212);
+    background-color: $secondary-heavy;
     border-radius: 0.5rem;
     color: #000;
     height: 10px;
 
     &.active {
-        background-color: blueviolet;
+        background-color: $primary-heavy;
         color: azure;
+    }
+
+    &.eventful {
+        background-color: $tertiary-heavy;
+        width: 14px !important;
+        margin-left: -2px;
     }
 
     &.small {
